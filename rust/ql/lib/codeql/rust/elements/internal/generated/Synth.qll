@@ -121,6 +121,10 @@ module Synth {
     /**
      * INTERNAL: Do not use.
      */
+    TCrate(Raw::Crate id) { constructCrate(id) } or
+    /**
+     * INTERNAL: Do not use.
+     */
     TDynTraitTypeRepr(Raw::DynTraitTypeRepr id) { constructDynTraitTypeRepr(id) } or
     /**
      * INTERNAL: Do not use.
@@ -925,6 +929,12 @@ module Synth {
    * Converts a raw element to a synthesized `TContinueExpr`, if possible.
    */
   TContinueExpr convertContinueExprFromRaw(Raw::Element e) { result = TContinueExpr(e) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a raw element to a synthesized `TCrate`, if possible.
+   */
+  TCrate convertCrateFromRaw(Raw::Element e) { result = TCrate(e) }
 
   /**
    * INTERNAL: Do not use.
@@ -1859,6 +1869,8 @@ module Synth {
    * Converts a raw DB element to a synthesized `TElement`, if possible.
    */
   TElement convertElementFromRaw(Raw::Element e) {
+    result = convertCrateFromRaw(e)
+    or
     result = convertExtractorStepFromRaw(e)
     or
     result = convertLocatableFromRaw(e)
@@ -2365,6 +2377,12 @@ module Synth {
    * Converts a synthesized `TContinueExpr` to a raw DB element, if possible.
    */
   Raw::Element convertContinueExprToRaw(TContinueExpr e) { e = TContinueExpr(result) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a synthesized `TCrate` to a raw DB element, if possible.
+   */
+  Raw::Element convertCrateToRaw(TCrate e) { e = TCrate(result) }
 
   /**
    * INTERNAL: Do not use.
@@ -3297,6 +3315,8 @@ module Synth {
    * Converts a synthesized `TElement` to a raw DB element, if possible.
    */
   Raw::Element convertElementToRaw(TElement e) {
+    result = convertCrateToRaw(e)
+    or
     result = convertExtractorStepToRaw(e)
     or
     result = convertLocatableToRaw(e)
