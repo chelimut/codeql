@@ -36,6 +36,7 @@ import codeql.rust.elements.ConstBlockPat
 import codeql.rust.elements.ConstParam
 import codeql.rust.elements.ContinueExpr
 import codeql.rust.elements.Crate
+import codeql.rust.elements.CrateModule
 import codeql.rust.elements.DynTraitTypeRepr
 import codeql.rust.elements.Element
 import codeql.rust.elements.Enum
@@ -97,6 +98,7 @@ import codeql.rust.elements.Meta
 import codeql.rust.elements.MethodCallExpr
 import codeql.rust.elements.Missing
 import codeql.rust.elements.Module
+import codeql.rust.elements.ModuleContainer
 import codeql.rust.elements.Name
 import codeql.rust.elements.NameRef
 import codeql.rust.elements.NeverTypeRepr
