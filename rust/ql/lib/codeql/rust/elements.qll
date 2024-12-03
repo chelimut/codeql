@@ -171,6 +171,7 @@ import codeql.rust.elements.Union
 import codeql.rust.elements.Use
 import codeql.rust.elements.UseTree
 import codeql.rust.elements.UseTreeList
+import codeql.rust.elements.ValueItem
 import codeql.rust.elements.Variant
 import codeql.rust.elements.VariantList
 import codeql.rust.elements.Visibility
