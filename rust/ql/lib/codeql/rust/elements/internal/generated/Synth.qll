@@ -137,6 +137,14 @@ module Synth {
     /**
      * INTERNAL: Do not use.
      */
+    TEnumItem(Raw::EnumItem id) { constructEnumItem(id) } or
+    /**
+     * INTERNAL: Do not use.
+     */
+    TEnumVariant(Raw::EnumVariant id) { constructEnumVariant(id) } or
+    /**
+     * INTERNAL: Do not use.
+     */
     TExprStmt(Raw::ExprStmt id) { constructExprStmt(id) } or
     /**
      * INTERNAL: Do not use.
@@ -513,6 +521,10 @@ module Synth {
     /**
      * INTERNAL: Do not use.
      */
+    TStructItem(Raw::StructItem id) { constructStructItem(id) } or
+    /**
+     * INTERNAL: Do not use.
+     */
     TTokenTree(Raw::TokenTree id) { constructTokenTree(id) } or
     /**
      * INTERNAL: Do not use.
@@ -602,6 +614,10 @@ module Synth {
      * INTERNAL: Do not use.
      */
     TVariant(Raw::Variant id) { constructVariant(id) } or
+    /**
+     * INTERNAL: Do not use.
+     */
+    TVariantData(Raw::VariantData id) { constructVariantData(id) } or
     /**
      * INTERNAL: Do not use.
      */
@@ -771,6 +787,11 @@ module Synth {
    * INTERNAL: Do not use.
    */
   class TToken = TComment;
+
+  /**
+   * INTERNAL: Do not use.
+   */
+  class TTypeItem = TEnumItem or TStructItem;
 
   /**
    * INTERNAL: Do not use.
@@ -966,6 +987,18 @@ module Synth {
    * Converts a raw element to a synthesized `TEnum`, if possible.
    */
   TEnum convertEnumFromRaw(Raw::Element e) { result = TEnum(e) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a raw element to a synthesized `TEnumItem`, if possible.
+   */
+  TEnumItem convertEnumItemFromRaw(Raw::Element e) { result = TEnumItem(e) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a raw element to a synthesized `TEnumVariant`, if possible.
+   */
+  TEnumVariant convertEnumVariantFromRaw(Raw::Element e) { result = TEnumVariant(e) }
 
   /**
    * INTERNAL: Do not use.
@@ -1529,6 +1562,12 @@ module Synth {
 
   /**
    * INTERNAL: Do not use.
+   * Converts a raw element to a synthesized `TStructItem`, if possible.
+   */
+  TStructItem convertStructItemFromRaw(Raw::Element e) { result = TStructItem(e) }
+
+  /**
+   * INTERNAL: Do not use.
    * Converts a raw element to a synthesized `TTokenTree`, if possible.
    */
   TTokenTree convertTokenTreeFromRaw(Raw::Element e) { result = TTokenTree(e) }
@@ -1664,6 +1703,12 @@ module Synth {
    * Converts a raw element to a synthesized `TVariant`, if possible.
    */
   TVariant convertVariantFromRaw(Raw::Element e) { result = TVariant(e) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a raw element to a synthesized `TVariantData`, if possible.
+   */
+  TVariantData convertVariantDataFromRaw(Raw::Element e) { result = TVariantData(e) }
 
   /**
    * INTERNAL: Do not use.
@@ -1894,15 +1939,21 @@ module Synth {
    * Converts a raw DB element to a synthesized `TElement`, if possible.
    */
   TElement convertElementFromRaw(Raw::Element e) {
+    result = convertEnumVariantFromRaw(e)
+    or
     result = convertExtractorStepFromRaw(e)
     or
     result = convertLocatableFromRaw(e)
     or
     result = convertModuleContainerFromRaw(e)
     or
+    result = convertTypeItemFromRaw(e)
+    or
     result = convertUnextractedFromRaw(e)
     or
     result = convertValueItemFromRaw(e)
+    or
+    result = convertVariantDataFromRaw(e)
   }
 
   /**
@@ -2215,6 +2266,16 @@ module Synth {
 
   /**
    * INTERNAL: Do not use.
+   * Converts a raw DB element to a synthesized `TTypeItem`, if possible.
+   */
+  TTypeItem convertTypeItemFromRaw(Raw::Element e) {
+    result = convertEnumItemFromRaw(e)
+    or
+    result = convertStructItemFromRaw(e)
+  }
+
+  /**
+   * INTERNAL: Do not use.
    * Converts a raw DB element to a synthesized `TTypeRepr`, if possible.
    */
   TTypeRepr convertTypeReprFromRaw(Raw::Element e) {
@@ -2438,6 +2499,18 @@ module Synth {
    * Converts a synthesized `TEnum` to a raw DB element, if possible.
    */
   Raw::Element convertEnumToRaw(TEnum e) { e = TEnum(result) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a synthesized `TEnumItem` to a raw DB element, if possible.
+   */
+  Raw::Element convertEnumItemToRaw(TEnumItem e) { e = TEnumItem(result) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a synthesized `TEnumVariant` to a raw DB element, if possible.
+   */
+  Raw::Element convertEnumVariantToRaw(TEnumVariant e) { e = TEnumVariant(result) }
 
   /**
    * INTERNAL: Do not use.
@@ -2999,6 +3072,12 @@ module Synth {
 
   /**
    * INTERNAL: Do not use.
+   * Converts a synthesized `TStructItem` to a raw DB element, if possible.
+   */
+  Raw::Element convertStructItemToRaw(TStructItem e) { e = TStructItem(result) }
+
+  /**
+   * INTERNAL: Do not use.
    * Converts a synthesized `TTokenTree` to a raw DB element, if possible.
    */
   Raw::Element convertTokenTreeToRaw(TTokenTree e) { e = TTokenTree(result) }
@@ -3134,6 +3213,12 @@ module Synth {
    * Converts a synthesized `TVariant` to a raw DB element, if possible.
    */
   Raw::Element convertVariantToRaw(TVariant e) { e = TVariant(result) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a synthesized `TVariantData` to a raw DB element, if possible.
+   */
+  Raw::Element convertVariantDataToRaw(TVariantData e) { e = TVariantData(result) }
 
   /**
    * INTERNAL: Do not use.
@@ -3364,15 +3449,21 @@ module Synth {
    * Converts a synthesized `TElement` to a raw DB element, if possible.
    */
   Raw::Element convertElementToRaw(TElement e) {
+    result = convertEnumVariantToRaw(e)
+    or
     result = convertExtractorStepToRaw(e)
     or
     result = convertLocatableToRaw(e)
     or
     result = convertModuleContainerToRaw(e)
     or
+    result = convertTypeItemToRaw(e)
+    or
     result = convertUnextractedToRaw(e)
     or
     result = convertValueItemToRaw(e)
+    or
+    result = convertVariantDataToRaw(e)
   }
 
   /**
@@ -3682,6 +3773,16 @@ module Synth {
    * Converts a synthesized `TToken` to a raw DB element, if possible.
    */
   Raw::Element convertTokenToRaw(TToken e) { result = convertCommentToRaw(e) }
+
+  /**
+   * INTERNAL: Do not use.
+   * Converts a synthesized `TTypeItem` to a raw DB element, if possible.
+   */
+  Raw::Element convertTypeItemToRaw(TTypeItem e) {
+    result = convertEnumItemToRaw(e)
+    or
+    result = convertStructItemToRaw(e)
+  }
 
   /**
    * INTERNAL: Do not use.
