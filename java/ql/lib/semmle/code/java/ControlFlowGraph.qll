@@ -7,6 +7,8 @@
  * statement, an expression, or the enclosing callable, indicating that
  * execution of the callable terminates.
  */
+overlay[local]
+module;
 
 /*
  * The implementation is centered around the concept of a _completion_, which
